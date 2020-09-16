@@ -208,6 +208,20 @@ public class MainActivity extends AppCompatActivity implements OnKeyboardEventLi
           KMManager.KMDefault_LanguageID)) {
         KMManager.addKeyboard(this, KMManager.getDefaultKeyboard(getApplicationContext()));
       }
+
+      KMManager.addKeyboard(this, new Keyboard(
+        "sil_nko",
+        "sil_nko",
+        "N'Ko (SIL)",
+        "nqo",
+        "N'Ko",
+        "1.0",
+        null,
+        null,
+        false,
+        "NotoSansNKo-Regular.ttf",
+        "NotoSansNKo-Regular.ttf"
+      ));
       SharedPreferences.Editor editor = prefs.edit();
       editor.putBoolean(defaultKeyboardInstalled, true);
       editor.commit();
