@@ -626,6 +626,14 @@ public final class KMManager {
         if (isPackageFile) {
           copyAsset(context, assetFile, "", true);
           kmpFile = new File(getResourceRoot(), assetFile);
+          String lastModified = kmpFile.exists() ? String.valueOf(kmpFile.lastModified()) : "";
+          File cacheFile = new File(getResourceRoot(), String.format("%s-%s", assetFile, lastModified));
+          if (cacheFile.exists()) {
+            // Skip since kmp has already been extracted.
+            // This avoids having to unzip and determine package version from kmp.json
+            continue;
+          }
+
           tempPackagePath = kmpProcessor.unzipKMP(kmpFile);
 
           // Determine package info
@@ -648,6 +656,10 @@ public final class KMManager {
               if (!lmkmpProcessor.isDowngrade(kmpFile)) {
                 lmkmpProcessor.processKMP(kmpFile, tempPackagePath, PackageProcessor.PP_LEXICAL_MODELS_KEY);
               }
+            }
+
+            if (!cacheFile.exists()) {
+              cacheFile.createNewFile();
             }
           } catch (JSONException e) {
             KMLog.LogException(TAG, "Unable to determine isDowngrade for " + kmpFile.toString(), e);
