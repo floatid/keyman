@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tavultesoft.kmea.KMManager;
@@ -41,6 +45,7 @@ public class KMPBrowserActivity extends AppCompatActivity {
   private static final Pattern keyboardPattern = Pattern.compile(keyboardPatternFormatStr);
 
   private WebView webView;
+  private static RelativeLayout keyboardLayout;
   private boolean isLoading = false;
   private boolean didFinishLoading = false;
 
@@ -51,6 +56,17 @@ public class KMPBrowserActivity extends AppCompatActivity {
     final Context context = this;
 
     setContentView(R.layout.activity_kmp_browser);
+    if (keyboardLayout == null) {
+      keyboardLayout = new RelativeLayout(context.getApplicationContext());
+      keyboardLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+      keyboardLayout.setBackgroundColor(Color.TRANSPARENT);
+      keyboardLayout.setVisibility(View.GONE);
+      keyboardLayout.setEnabled(false);
+    }
+
+    if (KMManager.InAppKeyboard != null && KMManager.InAppKeyboard.getParent() == null) {
+      keyboardLayout.addView(KMManager.InAppKeyboard);
+    }
 
     webView = (WebView) findViewById(R.id.kmpBrowserWebView);
     webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
@@ -136,11 +152,15 @@ public class KMPBrowserActivity extends AppCompatActivity {
     if (webView != null) {
       webView.reload();
     }
+
+    KMManager.onResume();
+    KMManager.hideSystemKeyboard();
   }
 
   @Override
   protected void onPause() {
     super.onPause();
+    KMManager.onPause();
   }
 
   @Override
