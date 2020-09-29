@@ -57,7 +57,7 @@ import io.sentry.core.Breadcrumb;
 import io.sentry.core.Sentry;
 import io.sentry.core.SentryLevel;
 
-final class KMKeyboard extends WebView {
+public final class KMKeyboard extends WebView {
   private static final String TAG = "KMKeyboard";
   private final Context context;
   private KeyboardType keyboardType = KeyboardType.KEYBOARD_TYPE_UNDEFINED;

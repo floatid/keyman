@@ -325,6 +325,10 @@ public final class KMManager {
     return appVersion;
   }
 
+  public static KMKeyboard getInAppKeyboard() {
+    return InAppKeyboard;
+  }
+
   // Check if a keyboard namespace is reserved
   public static boolean isReservedNamespace(String packageID) {
     if (packageID.equals(KMDefault_UndefinedPackageID)) {

@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tavultesoft.kmea.KMManager;
+import com.tavultesoft.kmea.KMKeyboard;
 import com.tavultesoft.kmea.KeyboardEventHandler;
 import com.tavultesoft.kmea.util.KMPLink;
 
@@ -49,6 +50,7 @@ public class KMPBrowserActivity extends AppCompatActivity implements KeyboardEve
   private static final Pattern keyboardPattern = Pattern.compile(keyboardPatternFormatStr);
 
   private static View inputView = null;
+  private static RelativeLayout keyboardLayout;
 
   private WebView webView;
   private boolean isLoading = false;
@@ -167,6 +169,19 @@ public class KMPBrowserActivity extends AppCompatActivity implements KeyboardEve
       screenHeight - statusBarHeight - bannerHeight - keyboardHeight);
     webView.setLayoutParams(params);
     //layout.addView(webView, params);
+
+    if (keyboardLayout == null) {
+      keyboardLayout = new RelativeLayout(getApplicationContext());
+      keyboardLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+      keyboardLayout.setBackgroundColor(Color.TRANSPARENT);
+      keyboardLayout.setVisibility(View.GONE);
+      keyboardLayout.setEnabled(false);
+    }
+
+    KMKeyboard inAppKeyboard = KMManager.getInAppKeyboard();
+    if (inAppKeyboard != null && inAppKeyboard.getParent() == null) {
+      keyboardLayout.addView(inAppKeyboard);
+    }
   }
 
   /*
@@ -183,7 +198,7 @@ public class KMPBrowserActivity extends AppCompatActivity implements KeyboardEve
     return inputView;
   }
 */
-  
+
   @Override
   protected void onResume() {
     super.onResume();
