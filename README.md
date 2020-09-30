@@ -5,7 +5,7 @@
 Keyman is an open source project distributed under the MIT license.
 
 # Get Involved
-
+[![Run on Repl.it](https://repl.it/badge/github/keymanapp/keyman)](https://repl.it/github/keymanapp/keyman)
 [Get involved](https://keyman.com/about/get-involved)
 
 [comment]: # (CI Build statuses)
