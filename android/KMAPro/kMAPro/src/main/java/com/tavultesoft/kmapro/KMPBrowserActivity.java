@@ -10,8 +10,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -117,6 +121,13 @@ public class KMPBrowserActivity extends AppCompatActivity {
       public void onPageFinished(WebView view, String url) {
         didFinishLoading = true;
         isLoading = false;
+      }
+
+      @Override
+      public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+        InputConnection inputConnection = new BaseInputConnection(this, true);//super.onCreateInputConnection(outAttrs);
+        outAttrs.inputType = outAttrs.inputType | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
+        return inputConnection;
       }
     });
 
